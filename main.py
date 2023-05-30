@@ -1,1 +1,1 @@
-print("Test")
+from sqlite3 import *
