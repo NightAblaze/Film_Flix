@@ -13,7 +13,14 @@ class sql_handling():
             self.cursor = self.my_conn.cursor()
     
 
-    def sql_execute(self, query):
+    def sql_execute(self, query, vals):
+        self.cursor.execute(query, vals)
+        self.my_conn.commit()
+    
+    def sql_execute_query(self, query, vals):
+        self.cursor.execute(query, vals)
+        return self.cursor.fetchall()
+
+    def sql_execute_delete(self, query):
         self.cursor.execute(query)
         self.my_conn.commit()
-        
