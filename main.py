@@ -5,7 +5,6 @@ from tkinter import ttk
 
 # Setting variable name for class
 f_controller = fn_controller()
-# selected_item = []
 
 class SampleApp(tk.Tk):
 
@@ -14,7 +13,7 @@ class SampleApp(tk.Tk):
         
         self.title("Film Flix")
         width=613
-        height=570
+        height=620
         screenwidth = self.winfo_screenwidth()
         screenheight = self.winfo_screenheight()
         alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
@@ -45,6 +44,12 @@ class SampleApp(tk.Tk):
         frame = self.frames[page_name]
         frame.tkraise()
 
+    def get_page(self, classname):
+        '''Returns an instance of a page given it's class name as a string'''
+        for page in self.frames.values():
+            if str(page.__class__.__name__) == classname:
+                return page
+        return None
 
 class menu_scrn(tk.Frame):
 
@@ -52,43 +57,43 @@ class menu_scrn(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        Title=tk.Label(self)
+        menu_Title=tk.Label(self)
         ft = tkFont.Font(family='Times',size=48)
-        Title["font"] = ft
-        Title["fg"] = "#333333"
-        Title["justify"] = "center"
-        Title["text"] = "Film Flix"
-        Title.place(x=0,y=30,width=614,height=53)
+        menu_Title["font"] = ft
+        menu_Title["fg"] = "#333333"
+        menu_Title["justify"] = "center"
+        menu_Title["text"] = "Film Flix"
+        menu_Title.place(x=0,y=30,width=614,height=53)
         
-        Search_menu_btn=tk.Button(self)
-        Search_menu_btn["bg"] = "#f0f0f0"
+        menu_Search_btn=tk.Button(self)
+        menu_Search_btn["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times',size=14)
-        Search_menu_btn["font"] = ft
-        Search_menu_btn["fg"] = "#000000"
-        Search_menu_btn["justify"] = "center"
-        Search_menu_btn["text"] = "Search Film Flix"
-        Search_menu_btn.place(x=220,y=150,width=150,height=30)
-        Search_menu_btn["command"] = lambda: controller.show_frame("query_scrn")
+        menu_Search_btn["font"] = ft
+        menu_Search_btn["fg"] = "#000000"
+        menu_Search_btn["justify"] = "center"
+        menu_Search_btn["text"] = "Search Film Flix"
+        menu_Search_btn.place(x=220,y=150,width=150,height=30)
+        menu_Search_btn["command"] = lambda: controller.show_frame("query_scrn")
         
-        Add_menu_btn=tk.Button(self)
-        Add_menu_btn["bg"] = "#f0f0f0"
+        menu_Add_btn=tk.Button(self)
+        menu_Add_btn["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times',size=14)
-        Add_menu_btn["font"] = ft
-        Add_menu_btn["fg"] = "#000000"
-        Add_menu_btn["justify"] = "center"
-        Add_menu_btn["text"] = "Add a new film"
-        Add_menu_btn.place(x=220,y=200,width=150,height=30)
-        Add_menu_btn["command"] = lambda: controller.show_frame("add_scrn")
+        menu_Add_btn["font"] = ft
+        menu_Add_btn["fg"] = "#000000"
+        menu_Add_btn["justify"] = "center"
+        menu_Add_btn["text"] = "Add a new film"
+        menu_Add_btn.place(x=220,y=200,width=150,height=30)
+        menu_Add_btn["command"] = lambda: controller.show_frame("add_scrn")
         
-        Quit_btn=tk.Button(self)
-        Quit_btn["bg"] = "#f0f0f0"
+        menu_Quit_btn=tk.Button(self)
+        menu_Quit_btn["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times',size=14)
-        Quit_btn["font"] = ft
-        Quit_btn["fg"] = "#000000"
-        Quit_btn["justify"] = "center"
-        Quit_btn["text"] = "Quit"
-        Quit_btn.place(x=220,y=250,width=150,height=30)
-        Quit_btn["command"] = lambda: quit()
+        menu_Quit_btn["font"] = ft
+        menu_Quit_btn["fg"] = "#000000"
+        menu_Quit_btn["justify"] = "center"
+        menu_Quit_btn["text"] = "Quit"
+        menu_Quit_btn.place(x=220,y=250,width=150,height=30)
+        menu_Quit_btn["command"] = lambda: quit()
         
 
 
@@ -98,202 +103,214 @@ class query_scrn(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
         
-        Title=tk.Label(self)
+        query_Title=tk.Label(self)
         ft = tkFont.Font(family='Times',size=48)
-        Title["font"] = ft
-        Title["fg"] = "#333333"
-        Title["justify"] = "center"
-        Title["text"] = "Film Flix"
-        Title.place(x=0,y=30,width=614,height=53)
+        query_Title["font"] = ft
+        query_Title["fg"] = "#333333"
+        query_Title["justify"] = "center"
+        query_Title["text"] = "Film Flix"
+        query_Title.place(x=0,y=30,width=614,height=53)
         
-        Id_label=tk.Label(self)
+        query_Id_label=tk.Label(self)
         ft = tkFont.Font(family='Times',size=10)
-        Id_label["font"] = ft
-        Id_label["fg"] = "#333333"
-        Id_label["justify"] = "center"
-        Id_label["text"] = "ID"
-        Id_label.place(x=20,y=90,width=70,height=25)
+        query_Id_label["font"] = ft
+        query_Id_label["fg"] = "#333333"
+        query_Id_label["justify"] = "center"
+        query_Id_label["text"] = "ID"
+        query_Id_label.place(x=20,y=90,width=70,height=25)
 
-        Id_entry=tk.Entry(self)
-        Id_entry["borderwidth"] = "1px"
+        query_Id_entry=tk.Entry(self)
+        query_Id_entry["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=10)
-        Id_entry["font"] = ft
-        Id_entry["fg"] = "#333333"
-        Id_entry["justify"] = "center"
-        Id_entry["text"] = "ID"
-        Id_entry.place(x=20,y=120,width=70,height=25)
+        query_Id_entry["font"] = ft
+        query_Id_entry["fg"] = "#333333"
+        query_Id_entry["justify"] = "center"
+        query_Id_entry["text"] = ""
+        query_Id_entry.place(x=20,y=120,width=70,height=25)
 
-        Title_label=tk.Label(self)
+        query_Title_label=tk.Label(self)
         ft = tkFont.Font(family='Times',size=10)
-        Title_label["font"] = ft
-        Title_label["fg"] = "#333333"
-        Title_label["justify"] = "center"
-        Title_label["text"] = "Title"
-        Title_label.place(x=120,y=90,width=70,height=25)
+        query_Title_label["font"] = ft
+        query_Title_label["fg"] = "#333333"
+        query_Title_label["justify"] = "center"
+        query_Title_label["text"] = "Title"
+        query_Title_label.place(x=120,y=90,width=70,height=25)
 
-        Title_entry=tk.Entry(self)
-        Title_entry["borderwidth"] = "1px"
+        query_Title_entry=tk.Entry(self)
+        query_Title_entry["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=10)
-        Title_entry["font"] = ft
-        Title_entry["fg"] = "#333333"
-        Title_entry["justify"] = "center"
-        Title_entry["text"] = "Title"
-        Title_entry.place(x=120,y=120,width=70,height=25)
+        query_Title_entry["font"] = ft
+        query_Title_entry["fg"] = "#333333"
+        query_Title_entry["justify"] = "center"
+        query_Title_entry["text"] = ""
+        query_Title_entry.place(x=120,y=120,width=70,height=25)
 
-        Rel_yr_label=tk.Label(self)
+        query_Rel_yr_label=tk.Label(self)
         ft = tkFont.Font(family='Times',size=10)
-        Rel_yr_label["font"] = ft
-        Rel_yr_label["fg"] = "#333333"
-        Rel_yr_label["justify"] = "center"
-        Rel_yr_label["text"] = "Release year"
-        Rel_yr_label.place(x=220,y=90,width=77,height=30)
+        query_Rel_yr_label["font"] = ft
+        query_Rel_yr_label["fg"] = "#333333"
+        query_Rel_yr_label["justify"] = "center"
+        query_Rel_yr_label["text"] = "Release year"
+        query_Rel_yr_label.place(x=220,y=90,width=77,height=30)
 
-        Rel_yr_entry=tk.Entry(self)
-        Rel_yr_entry["borderwidth"] = "1px"
+        query_Rel_yr_entry=tk.Entry(self)
+        query_Rel_yr_entry["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=10)
-        Rel_yr_entry["font"] = ft
-        Rel_yr_entry["fg"] = "#333333"
-        Rel_yr_entry["justify"] = "center"
-        Rel_yr_entry["text"] = "release_year"
-        Rel_yr_entry.place(x=220,y=120,width=70,height=25)
+        query_Rel_yr_entry["font"] = ft
+        query_Rel_yr_entry["fg"] = "#333333"
+        query_Rel_yr_entry["justify"] = "center"
+        query_Rel_yr_entry["text"] = ""
+        query_Rel_yr_entry.place(x=220,y=120,width=70,height=25)
 
-        Rating_label=tk.Label(self)
+        query_Rating_label=tk.Label(self)
         ft = tkFont.Font(family='Times',size=10)
-        Rating_label["font"] = ft
-        Rating_label["fg"] = "#333333"
-        Rating_label["justify"] = "center"
-        Rating_label["text"] = "Rating"
-        Rating_label.place(x=320,y=90,width=70,height=25)
+        query_Rating_label["font"] = ft
+        query_Rating_label["fg"] = "#333333"
+        query_Rating_label["justify"] = "center"
+        query_Rating_label["text"] = "Rating"
+        query_Rating_label.place(x=320,y=90,width=70,height=25)
 
-        Rating_entry=tk.Entry(self)
-        Rating_entry["borderwidth"] = "1px"
+        query_Rating_entry=tk.Entry(self)
+        query_Rating_entry["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=10)
-        Rating_entry["font"] = ft
-        Rating_entry["fg"] = "#333333"
-        Rating_entry["justify"] = "center"
-        Rating_entry["text"] = "rating"
-        Rating_entry.place(x=320,y=120,width=70,height=25)
+        query_Rating_entry["font"] = ft
+        query_Rating_entry["fg"] = "#333333"
+        query_Rating_entry["justify"] = "center"
+        query_Rating_entry["text"] = ""
+        query_Rating_entry.place(x=320,y=120,width=70,height=25)
 
-        Duration_label=tk.Label(self)
+        query_Duration_label=tk.Label(self)
         ft = tkFont.Font(family='Times',size=10)
-        Duration_label["font"] = ft
-        Duration_label["fg"] = "#333333"
-        Duration_label["justify"] = "center"
-        Duration_label["text"] = "Duration"
-        Duration_label.place(x=420,y=90,width=70,height=25)
+        query_Duration_label["font"] = ft
+        query_Duration_label["fg"] = "#333333"
+        query_Duration_label["justify"] = "center"
+        query_Duration_label["text"] = "Duration"
+        query_Duration_label.place(x=420,y=90,width=70,height=25)
 
-        Duration_entry=tk.Entry(self)
-        Duration_entry["borderwidth"] = "1px"
+        query_Duration_entry=tk.Entry(self)
+        query_Duration_entry["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=10)
-        Duration_entry["font"] = ft
-        Duration_entry["fg"] = "#333333"
-        Duration_entry["justify"] = "center"
-        Duration_entry["text"] = "duration"
-        Duration_entry.place(x=420,y=120,width=70,height=25)
+        query_Duration_entry["font"] = ft
+        query_Duration_entry["fg"] = "#333333"
+        query_Duration_entry["justify"] = "center"
+        query_Duration_entry["text"] = ""
+        query_Duration_entry.place(x=420,y=120,width=70,height=25)
 
-        Genre_label=tk.Label(self)
+        query_Genre_label=tk.Label(self)
         ft = tkFont.Font(family='Times',size=10)
-        Genre_label["font"] = ft
-        Genre_label["fg"] = "#333333"
-        Genre_label["justify"] = "center"
-        Genre_label["text"] = "Genre"
-        Genre_label.place(x=520,y=90,width=70,height=25)
+        query_Genre_label["font"] = ft
+        query_Genre_label["fg"] = "#333333"
+        query_Genre_label["justify"] = "center"
+        query_Genre_label["text"] = "Genre"
+        query_Genre_label.place(x=520,y=90,width=70,height=25)
 
-        Genre_entry=tk.Entry(self)
-        Genre_entry["borderwidth"] = "1px"
+        query_Genre_entry=tk.Entry(self)
+        query_Genre_entry["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=10)
-        Genre_entry["font"] = ft
-        Genre_entry["fg"] = "#333333"
-        Genre_entry["justify"] = "center"
-        Genre_entry["text"] = "genre"
-        Genre_entry.place(x=520,y=120,width=70,height=25)
+        query_Genre_entry["font"] = ft
+        query_Genre_entry["fg"] = "#333333"
+        query_Genre_entry["justify"] = "center"
+        query_Genre_entry["text"] = ""
+        query_Genre_entry.place(x=520,y=120,width=70,height=25)
 
-        Search_btn=tk.Button(self)
-        Search_btn["bg"] = "#f0f0f0"
+        query_Search_btn=tk.Button(self)
+        query_Search_btn["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times',size=14)
-        Search_btn["font"] = ft
-        Search_btn["fg"] = "#000000"
-        Search_btn["justify"] = "center"
-        Search_btn["text"] = "Search"
-        Search_btn.place(x=230,y=160,width=150,height=30)
-        Search_btn["command"] = lambda:self.Search_btn_command(Id_entry.get(), Title_entry.get(),  Rel_yr_entry.get(), Rating_entry.get(), Duration_entry.get(), Genre_entry.get(), Results)
+        query_Search_btn["font"] = ft
+        query_Search_btn["fg"] = "#000000"
+        query_Search_btn["justify"] = "center"
+        query_Search_btn["text"] = "Search"
+        query_Search_btn.place(x=230,y=160,width=150,height=30)
+        query_Search_btn["command"] = lambda:self.query_Search_btn_command(query_Id_entry.get(), query_Title_entry.get(),  query_Rel_yr_entry.get(), query_Rating_entry.get(), query_Duration_entry.get(), query_Genre_entry.get(), query_Results)
         
-        Results=ttk.Treeview(self, column=("c1", "c2", "c3", "c4", "c5", "c6"), show='headings', height=8)
+        query_Results=ttk.Treeview(self, column=("c1", "c2", "c3", "c4", "c5", "c6"), show='headings', height=8)
         # Results["borderwidth"] = "1px"
         # ft = tkFont.Font(family='Times',size=10)
         # Results["font"] = ft
         # Results["fg"] = "#333333"
         # Results["justify"] = "center"
         # Results["text"] = "Entry"
-        Results.place(x=10,y=200,width=590,height=261)
-        Results.column("# 1", anchor="center", minwidth=0, width=50)
-        Results.heading("# 1", text="Film ID")
-        Results.column("# 2", anchor="center", minwidth=0, width=235)
-        Results.heading("# 2", text="Title")
-        Results.column("# 3", anchor="center", minwidth=0, width=90)
-        Results.heading("# 3", text="Release year")
-        Results.column("# 4", anchor="center", minwidth=0, width=60)
-        Results.heading("# 4", text="Rating")
-        Results.column("# 5", anchor="center", minwidth=0, width=60)
-        Results.heading("# 5", text="Duration")
-        Results.column("# 6", anchor="center", minwidth=0, width=93)
-        Results.heading("# 6", text="Genre")
+        query_Results.place(x=10,y=200,width=590,height=261)
+        query_Results.column("# 1", anchor="center", minwidth=0, width=50)
+        query_Results.heading("# 1", text="Film ID")
+        query_Results.column("# 2", anchor="center", minwidth=0, width=235)
+        query_Results.heading("# 2", text="Title")
+        query_Results.column("# 3", anchor="center", minwidth=0, width=90)
+        query_Results.heading("# 3", text="Release year")
+        query_Results.column("# 4", anchor="center", minwidth=0, width=60)
+        query_Results.heading("# 4", text="Rating")
+        query_Results.column("# 5", anchor="center", minwidth=0, width=60)
+        query_Results.heading("# 5", text="Duration")
+        query_Results.column("# 6", anchor="center", minwidth=0, width=93)
+        query_Results.heading("# 6", text="Genre")
+        
+        query_Message=tk.Label(self)
+        ft = tkFont.Font(family='Times',size=14)
+        query_Message["font"] = ft
+        query_Message["fg"] = "#cc0000"
+        query_Message["justify"] = "center"
+        query_Message["text"] = ""
+        query_Message.place(x=0,y=470,width=613,height=30)
                 
-        Delete_btn=tk.Button(self)
-        Delete_btn["bg"] = "#f0f0f0"
+        query_Delete_btn=tk.Button(self)
+        query_Delete_btn["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times',size=14)
-        Delete_btn["font"] = ft
-        Delete_btn["fg"] = "#000000"
-        Delete_btn["justify"] = "center"
-        Delete_btn["text"] = "Delete"
-        Delete_btn.place(x=130,y=470,width=150,height=30)
-        Delete_btn["command"] = lambda: self.Delete_btn_command(Results)
+        query_Delete_btn["font"] = ft
+        query_Delete_btn["fg"] = "#000000"
+        query_Delete_btn["justify"] = "center"
+        query_Delete_btn["text"] = "Delete"
+        query_Delete_btn.place(x=130,y=520,width=150,height=30)
+        query_Delete_btn["command"] = lambda: self.query_Delete_btn_command(query_Id_entry.get(), query_Title_entry.get(),  query_Rel_yr_entry.get(), query_Rating_entry.get(), query_Duration_entry.get(), query_Genre_entry.get(), query_Results, query_Message)
 
-        Amend_btn=tk.Button(self)
-        Amend_btn["bg"] = "#f0f0f0"
+        query_Amend_btn=tk.Button(self)
+        query_Amend_btn["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times',size=14)
-        Amend_btn["font"] = ft
-        Amend_btn["fg"] = "#000000"
-        Amend_btn["justify"] = "center"
-        Amend_btn["text"] = "Amend details"
-        Amend_btn.place(x=330,y=470,width=150,height=30)
-        Amend_btn["command"] = lambda: self.Amend_btn_command(controller, Results)
+        query_Amend_btn["font"] = ft
+        query_Amend_btn["fg"] = "#000000"
+        query_Amend_btn["justify"] = "center"
+        query_Amend_btn["text"] = "Amend details"
+        query_Amend_btn.place(x=330,y=520,width=150,height=30)
+        query_Amend_btn["command"] = lambda: self.query_Amend_btn_command(controller, query_Results)
 
-        Back_btn=tk.Button(self)
-        Back_btn["bg"] = "#f0f0f0"
+        query_Back_btn=tk.Button(self)
+        query_Back_btn["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times',size=14)
-        Back_btn["font"] = ft
-        Back_btn["fg"] = "#000000"
-        Back_btn["justify"] = "center"
-        Back_btn["text"] = "Back"
-        Back_btn.place(x=220,y=520,width=150,height=30)
-        Back_btn["command"] = lambda: controller.show_frame ("menu_scrn")
+        query_Back_btn["font"] = ft
+        query_Back_btn["fg"] = "#000000"
+        query_Back_btn["justify"] = "center"
+        query_Back_btn["text"] = "Back"
+        query_Back_btn.place(x=220,y=570,width=150,height=30)
+        query_Back_btn["command"] = lambda: controller.show_frame ("menu_scrn")
 
-    def Amend_btn_command(self, controller, p_Results):
+    
+    def query_Amend_btn_command(self, controller, p_Results):
         #Data validation here
         
         # Get selected item to Edit
         selected_item = p_Results.focus()
         selected_item = p_Results.item(selected_item)
         selected_item = selected_item["values"]
-        print(selected_item)
-        controller.show_frame ("amend_scrn")
-                
-        # f_controller.amend(selected_item, amend_scrn.Results)
-        # return selected_item
         
-    def Delete_btn_command(self, p_results):
+        amend_page = self.controller.get_page("amend_scrn")
+        amend_page.amend_Results.delete(*amend_page.amend_Results.get_children())
+        amend_page.amend_Results.insert('', 'end', text="1", values=selected_item)
+
+        controller.show_frame ("amend_scrn")
+
+        
+    def query_Delete_btn_command(self, p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_results, message):
         #Data validation here
         
         # Get selected item to Delete
         deleted_item = p_results.focus()
         deleted_item = p_results.item(deleted_item)
         deleted_item = deleted_item["values"]
-        print(deleted_item)
-        f_controller.delete(deleted_item)
+        f_controller.delete(deleted_item, message)
+        p_results.delete(*p_results.get_children())
+        f_controller.query(p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_results)
         
 
-    def Search_btn_command(self, p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_Results):
+    def query_Search_btn_command(self, p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_Results):
         p_Results.delete(*p_Results.get_children())
         f_controller.query(p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_Results)
 
@@ -305,303 +322,320 @@ class add_scrn(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
         
-        Title=tk.Label(self)
+        add_Title=tk.Label(self)
         ft = tkFont.Font(family='Times',size=48)
-        Title["font"] = ft
-        Title["fg"] = "#333333"
-        Title["justify"] = "center"
-        Title["text"] = "Film Flix"
-        Title.place(x=0,y=30,width=614,height=53)
+        add_Title["font"] = ft
+        add_Title["fg"] = "#333333"
+        add_Title["justify"] = "center"
+        add_Title["text"] = "Film Flix"
+        add_Title.place(x=0,y=30,width=614,height=53)
                 
-        Id_label=tk.Label(self)
+        add_Id_label=tk.Label(self)
         ft = tkFont.Font(family='Times',size=10)
-        Id_label["font"] = ft
-        Id_label["fg"] = "#333333"
-        Id_label["justify"] = "left"
-        Id_label["text"] = "ID"
-        Id_label.place(x=230,y=100,width=70,height=25)
+        add_Id_label["font"] = ft
+        add_Id_label["fg"] = "#333333"
+        add_Id_label["justify"] = "left"
+        add_Id_label["text"] = "ID"
+        add_Id_label.place(x=230,y=100,width=70,height=25)
 
-        Id_entry=tk.Entry(self)
-        Id_entry["borderwidth"] = "1px"
+        add_Id_entry=tk.Entry(self)
+        add_Id_entry["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=10)
-        Id_entry["font"] = ft
-        Id_entry["fg"] = "#333333"
-        Id_entry["justify"] = "center"
-        Id_entry["text"] = "ID"
-        Id_entry.place(x=320,y=100,width=70,height=25)
+        add_Id_entry["font"] = ft
+        add_Id_entry["fg"] = "#333333"
+        add_Id_entry["justify"] = "center"
+        add_Id_entry["text"] = ""
+        add_Id_entry.place(x=320,y=100,width=70,height=25)
 
-        Title_label=tk.Label(self)
+        add_Title_label=tk.Label(self)
         ft = tkFont.Font(family='Times',size=10)
-        Title_label["font"] = ft
-        Title_label["fg"] = "#333333"
-        Title_label["justify"] = "left"
-        Title_label["text"] = "Title"
-        Title_label.place(x=230,y=140,width=70,height=25)
+        add_Title_label["font"] = ft
+        add_Title_label["fg"] = "#333333"
+        add_Title_label["justify"] = "left"
+        add_Title_label["text"] = "Title"
+        add_Title_label.place(x=230,y=140,width=70,height=25)
 
-        Title_entry=tk.Entry(self)
-        Title_entry["borderwidth"] = "1px"
+        add_Title_entry=tk.Entry(self)
+        add_Title_entry["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=10)
-        Title_entry["font"] = ft
-        Title_entry["fg"] = "#333333"
-        Title_entry["justify"] = "center"
-        Title_entry["text"] = "Title"
-        Title_entry.place(x=320,y=140,width=70,height=25)
+        add_Title_entry["font"] = ft
+        add_Title_entry["fg"] = "#333333"
+        add_Title_entry["justify"] = "center"
+        add_Title_entry["text"] = ""
+        add_Title_entry.place(x=320,y=140,width=70,height=25)
 
-        Rel_yr_label=tk.Label(self)
+        add_Rel_yr_label=tk.Label(self)
         ft = tkFont.Font(family='Times',size=10)
-        Rel_yr_label["font"] = ft
-        Rel_yr_label["fg"] = "#333333"
-        Rel_yr_label["justify"] = "left"
-        Rel_yr_label["text"] = "Release year"
-        Rel_yr_label.place(x=230,y=180,width=77,height=30)
+        add_Rel_yr_label["font"] = ft
+        add_Rel_yr_label["fg"] = "#333333"
+        add_Rel_yr_label["justify"] = "left"
+        add_Rel_yr_label["text"] = "Release year"
+        add_Rel_yr_label.place(x=230,y=180,width=77,height=30)
 
-        Rel_yr_entry=tk.Entry(self)
-        Rel_yr_entry["borderwidth"] = "1px"
+        add_Rel_yr_entry=tk.Entry(self)
+        add_Rel_yr_entry["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=10)
-        Rel_yr_entry["font"] = ft
-        Rel_yr_entry["fg"] = "#333333"
-        Rel_yr_entry["justify"] = "center"
-        Rel_yr_entry["text"] = "release_year"
-        Rel_yr_entry.place(x=320,y=180,width=70,height=25)
+        add_Rel_yr_entry["font"] = ft
+        add_Rel_yr_entry["fg"] = "#333333"
+        add_Rel_yr_entry["justify"] = "center"
+        add_Rel_yr_entry["text"] = ""
+        add_Rel_yr_entry.place(x=320,y=180,width=70,height=25)
 
-        Rating_label=tk.Label(self)
+        add_Rating_label=tk.Label(self)
         ft = tkFont.Font(family='Times',size=10)
-        Rating_label["font"] = ft
-        Rating_label["fg"] = "#333333"
-        Rating_label["justify"] = "left"
-        Rating_label["text"] = "Rating"
-        Rating_label.place(x=230,y=220,width=70,height=25)
+        add_Rating_label["font"] = ft
+        add_Rating_label["fg"] = "#333333"
+        add_Rating_label["justify"] = "left"
+        add_Rating_label["text"] = "Rating"
+        add_Rating_label.place(x=230,y=220,width=70,height=25)
 
-        Rating_entry=tk.Entry(self)
-        Rating_entry["borderwidth"] = "1px"
+        add_Rating_entry=tk.Entry(self)
+        add_Rating_entry["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=10)
-        Rating_entry["font"] = ft
-        Rating_entry["fg"] = "#333333"
-        Rating_entry["justify"] = "center"
-        Rating_entry["text"] = "rating"
-        Rating_entry.place(x=320,y=220,width=70,height=25)
+        add_Rating_entry["font"] = ft
+        add_Rating_entry["fg"] = "#333333"
+        add_Rating_entry["justify"] = "center"
+        add_Rating_entry["text"] = ""
+        add_Rating_entry.place(x=320,y=220,width=70,height=25)
 
-        Duration_label=tk.Label(self)
+        add_Duration_label=tk.Label(self)
         ft = tkFont.Font(family='Times',size=10)
-        Duration_label["font"] = ft
-        Duration_label["fg"] = "#333333"
-        Duration_label["justify"] = "left"
-        Duration_label["text"] = "Duration"
-        Duration_label.place(x=230,y=260,width=70,height=25)
+        add_Duration_label["font"] = ft
+        add_Duration_label["fg"] = "#333333"
+        add_Duration_label["justify"] = "left"
+        add_Duration_label["text"] = "Duration"
+        add_Duration_label.place(x=230,y=260,width=70,height=25)
 
-        Duration_entry=tk.Entry(self)
-        Duration_entry["borderwidth"] = "1px"
+        add_Duration_entry=tk.Entry(self)
+        add_Duration_entry["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=10)
-        Duration_entry["font"] = ft
-        Duration_entry["fg"] = "#333333"
-        Duration_entry["justify"] = "center"
-        Duration_entry["text"] = "duration"
-        Duration_entry.place(x=320,y=260,width=70,height=25)
+        add_Duration_entry["font"] = ft
+        add_Duration_entry["fg"] = "#333333"
+        add_Duration_entry["justify"] = "center"
+        add_Duration_entry["text"] = ""
+        add_Duration_entry.place(x=320,y=260,width=70,height=25)
 
-        Genre_label=tk.Label(self)
+        add_Genre_label=tk.Label(self)
         ft = tkFont.Font(family='Times',size=10)
-        Genre_label["font"] = ft
-        Genre_label["fg"] = "#333333"
-        Genre_label["justify"] = "left"
-        Genre_label["text"] = "Genre"
-        Genre_label.place(x=230,y=300,width=70,height=25)
+        add_Genre_label["font"] = ft
+        add_Genre_label["fg"] = "#333333"
+        add_Genre_label["justify"] = "left"
+        add_Genre_label["text"] = "Genre"
+        add_Genre_label.place(x=230,y=300,width=70,height=25)
 
-        Genre_entry=tk.Entry(self)
-        Genre_entry["borderwidth"] = "1px"
+        add_Genre_entry=tk.Entry(self)
+        add_Genre_entry["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=10)
-        Genre_entry["font"] = ft
-        Genre_entry["fg"] = "#333333"
-        Genre_entry["justify"] = "center"
-        Genre_entry["text"] = "genre"
-        Genre_entry.place(x=320,y=300,width=70,height=25)
-                
-        Add_btn=tk.Button(self)
-        Add_btn["bg"] = "#f0f0f0"
-        ft = tkFont.Font(family='Times',size=14)
-        Add_btn["font"] = ft
-        Add_btn["fg"] = "#000000"
-        Add_btn["justify"] = "center"
-        Add_btn["text"] = "Add film"
-        Add_btn.place(x=220,y=370,width=150,height=30)
-        Add_btn["command"] = lambda: self.Add_btn_command(Id_entry.get(), Title_entry.get(), Rel_yr_entry.get(), Rating_entry.get(), Duration_entry.get(), Genre_entry.get())
-
-        Back_btn=tk.Button(self)
-        Back_btn["bg"] = "#f0f0f0"
-        ft = tkFont.Font(family='Times',size=14)
-        Back_btn["font"] = ft
-        Back_btn["fg"] = "#000000"
-        Back_btn["justify"] = "center"
-        Back_btn["text"] = "Back"
-        Back_btn.place(x=220,y=420,width=150,height=30)
-        Back_btn["command"] = lambda: controller.show_frame ("menu_scrn")
+        add_Genre_entry["font"] = ft
+        add_Genre_entry["fg"] = "#333333"
+        add_Genre_entry["justify"] = "center"
+        add_Genre_entry["text"] = ""
+        add_Genre_entry.place(x=320,y=300,width=70,height=25)
         
-    def Add_btn_command(self, p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre):
-        f_controller.add_film(p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre)
+        add_Message=tk.Label(self)
+        ft = tkFont.Font(family='Times',size=14)
+        add_Message["font"] = ft
+        add_Message["fg"] = "#00cc22"
+        add_Message["justify"] = "center"
+        add_Message["text"] = ""
+        add_Message.place(x=0,y=350,width=613,height=30)
+                
+        add_Add_btn=tk.Button(self)
+        add_Add_btn["bg"] = "#f0f0f0"
+        ft = tkFont.Font(family='Times',size=14)
+        add_Add_btn["font"] = ft
+        add_Add_btn["fg"] = "#000000"
+        add_Add_btn["justify"] = "center"
+        add_Add_btn["text"] = "Add film"
+        add_Add_btn.place(x=230,y=400,width=150,height=30)
+        add_Add_btn["command"] = lambda: self.add_Add_btn_command(add_Id_entry.get(), add_Title_entry.get(), add_Rel_yr_entry.get(), add_Rating_entry.get(), add_Duration_entry.get(), add_Genre_entry.get(), add_Id_entry, add_Title_entry, add_Rel_yr_entry, add_Rating_entry, add_Duration_entry, add_Genre_entry, add_Message)
+
+        add_Back_btn=tk.Button(self)
+        add_Back_btn["bg"] = "#f0f0f0"
+        ft = tkFont.Font(family='Times',size=14)
+        add_Back_btn["font"] = ft
+        add_Back_btn["fg"] = "#000000"
+        add_Back_btn["justify"] = "center"
+        add_Back_btn["text"] = "Back"
+        add_Back_btn.place(x=230,y=450,width=150,height=30)
+        add_Back_btn["command"] = lambda: controller.show_frame ("menu_scrn")
+        
+    def add_Add_btn_command(self, p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p2_film_id, p2_title, p2_year_released, p2_rating, p2_duration, p2_genre, message):
+        f_controller.add_film(p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, message)
+        boxes = [p2_film_id, p2_title, p2_year_released, p2_rating, p2_duration, p2_genre]
+        for i in boxes:
+            i.delete(0, tk.END)
 
 
 class amend_scrn(tk.Frame):
 
+    amend_Results = ""
+    
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
         
-        Title=tk.Label(self)
+        amend_Title=tk.Label(self)
         ft = tkFont.Font(family='Times',size=48)
-        Title["font"] = ft
-        Title["fg"] = "#333333"
-        Title["justify"] = "center"
-        Title["text"] = "Film Flix"
-        Title.place(x=0,y=30,width=614,height=53)
+        amend_Title["font"] = ft
+        amend_Title["fg"] = "#333333"
+        amend_Title["justify"] = "center"
+        amend_Title["text"] = "Film Flix"
+        amend_Title.place(x=0,y=30,width=614,height=53)
                 
-        Results=ttk.Treeview(self, column=("c1", "c2", "c3", "c4", "c5", "c6"), show='headings', height=8)
+        self.amend_Results=ttk.Treeview(self, column=("c1", "c2", "c3", "c4", "c5", "c6"), show='headings', height=8)
         # Results["borderwidth"] = "1px"
         # ft = tkFont.Font(family='Times',size=10)
         # Results["font"] = ft
         # Results["fg"] = "#333333"
         # Results["justify"] = "center"
         # Results["text"] = "Entry"
-        Results.place(x=10,y=120,width=591,height=50)
-        Results.column("# 1", anchor="center", minwidth=0, width=50)
-        Results.heading("# 1", text="Film ID")
-        Results.column("# 2", anchor="center", minwidth=0, width=235)
-        Results.heading("# 2", text="Title")
-        Results.column("# 3", anchor="center", minwidth=0, width=90)
-        Results.heading("# 3", text="Release year")
-        Results.column("# 4", anchor="center", minwidth=0, width=60)
-        Results.heading("# 4", text="Rating")
-        Results.column("# 5", anchor="center", minwidth=0, width=60)
-        Results.heading("# 5", text="Duration")
-        Results.column("# 6", anchor="center", minwidth=0, width=94)
-        Results.heading("# 6", text="Genre")
+        self.amend_Results.place(x=10,y=120,width=591,height=50)
+        self.amend_Results.column("# 1", anchor="center", minwidth=0, width=50)
+        self.amend_Results.heading("# 1", text="Film ID")
+        self.amend_Results.column("# 2", anchor="center", minwidth=0, width=235)
+        self.amend_Results.heading("# 2", text="Title")
+        self.amend_Results.column("# 3", anchor="center", minwidth=0, width=90)
+        self.amend_Results.heading("# 3", text="Release year")
+        self.amend_Results.column("# 4", anchor="center", minwidth=0, width=60)
+        self.amend_Results.heading("# 4", text="Rating")
+        self.amend_Results.column("# 5", anchor="center", minwidth=0, width=60)
+        self.amend_Results.heading("# 5", text="Duration")
+        self.amend_Results.column("# 6", anchor="center", minwidth=0, width=94)
+        self.amend_Results.heading("# 6", text="Genre")
+
+        amend_Id_label=tk.Label(self)
+        ft = tkFont.Font(family='Times',size=10)
+        amend_Id_label["font"] = ft
+        amend_Id_label["fg"] = "#333333"
+        amend_Id_label["justify"] = "center"
+        amend_Id_label["text"] = "ID"
+        amend_Id_label.place(x=20,y=180,width=70,height=25)
+
+        amend_Id_entry=tk.Entry(self)
+        amend_Id_entry["borderwidth"] = "1px"
+        ft = tkFont.Font(family='Times',size=10)
+        amend_Id_entry["font"] = ft
+        amend_Id_entry["fg"] = "#333333"
+        amend_Id_entry["justify"] = "center"
+        amend_Id_entry["text"] = ""
+        amend_Id_entry.place(x=20,y=210,width=70,height=25)
+
+        amend_Title_label=tk.Label(self)
+        ft = tkFont.Font(family='Times',size=10)
+        amend_Title_label["font"] = ft
+        amend_Title_label["fg"] = "#333333"
+        amend_Title_label["justify"] = "center"
+        amend_Title_label["text"] = "Title"
+        amend_Title_label.place(x=120,y=180,width=70,height=25)
+
+        amend_Title_entry=tk.Entry(self)
+        amend_Title_entry["borderwidth"] = "1px"
+        ft = tkFont.Font(family='Times',size=10)
+        amend_Title_entry["font"] = ft
+        amend_Title_entry["fg"] = "#333333"
+        amend_Title_entry["justify"] = "center"
+        amend_Title_entry["text"] = ""
+        amend_Title_entry.place(x=120,y=210,width=70,height=25)
+
+        amend_Rel_yr_label=tk.Label(self)
+        ft = tkFont.Font(family='Times',size=10)
+        amend_Rel_yr_label["font"] = ft
+        amend_Rel_yr_label["fg"] = "#333333"
+        amend_Rel_yr_label["justify"] = "center"
+        amend_Rel_yr_label["text"] = "Release year"
+        amend_Rel_yr_label.place(x=220,y=180,width=77,height=30)
+
+        amend_Rel_yr_entry=tk.Entry(self)
+        amend_Rel_yr_entry["borderwidth"] = "1px"
+        ft = tkFont.Font(family='Times',size=10)
+        amend_Rel_yr_entry["font"] = ft
+        amend_Rel_yr_entry["fg"] = "#333333"
+        amend_Rel_yr_entry["justify"] = "center"
+        amend_Rel_yr_entry["text"] = ""
+        amend_Rel_yr_entry.place(x=220,y=210,width=70,height=25)
+
+        amend_Rating_label=tk.Label(self)
+        ft = tkFont.Font(family='Times',size=10)
+        amend_Rating_label["font"] = ft
+        amend_Rating_label["fg"] = "#333333"
+        amend_Rating_label["justify"] = "center"
+        amend_Rating_label["text"] = "Rating"
+        amend_Rating_label.place(x=320,y=180,width=70,height=25)
+
+        amend_Rating_entry=tk.Entry(self)
+        amend_Rating_entry["borderwidth"] = "1px"
+        ft = tkFont.Font(family='Times',size=10)
+        amend_Rating_entry["font"] = ft
+        amend_Rating_entry["fg"] = "#333333"
+        amend_Rating_entry["justify"] = "center"
+        amend_Rating_entry["text"] = ""
+        amend_Rating_entry.place(x=320,y=210,width=70,height=25)
+
+        amend_Duration_label=tk.Label(self)
+        ft = tkFont.Font(family='Times',size=10)
+        amend_Duration_label["font"] = ft
+        amend_Duration_label["fg"] = "#333333"
+        amend_Duration_label["justify"] = "center"
+        amend_Duration_label["text"] = "Duration"
+        amend_Duration_label.place(x=420,y=180,width=70,height=25)
+
+        amend_Duration_entry=tk.Entry(self)
+        amend_Duration_entry["borderwidth"] = "1px"
+        ft = tkFont.Font(family='Times',size=10)
+        amend_Duration_entry["font"] = ft
+        amend_Duration_entry["fg"] = "#333333"
+        amend_Duration_entry["justify"] = "center"
+        amend_Duration_entry["text"] = ""
+        amend_Duration_entry.place(x=420,y=210,width=70,height=25)
+
+        amend_Genre_label=tk.Label(self)
+        ft = tkFont.Font(family='Times',size=10)
+        amend_Genre_label["font"] = ft
+        amend_Genre_label["fg"] = "#333333"
+        amend_Genre_label["justify"] = "center"
+        amend_Genre_label["text"] = "Genre"
+        amend_Genre_label.place(x=520,y=180,width=70,height=25)
+
+        amend_Genre_entry=tk.Entry(self)
+        amend_Genre_entry["borderwidth"] = "1px"
+        ft = tkFont.Font(family='Times',size=10)
+        amend_Genre_entry["font"] = ft
+        amend_Genre_entry["fg"] = "#333333"
+        amend_Genre_entry["justify"] = "center"
+        amend_Genre_entry["text"] = ""
+        amend_Genre_entry.place(x=520,y=210,width=70,height=25)
         
-        # print(selected_item)
-        # Results.insert('', 'end', text="1", values=selected_item)
-        
-        Id_label=tk.Label(self)
-        ft = tkFont.Font(family='Times',size=10)
-        Id_label["font"] = ft
-        Id_label["fg"] = "#333333"
-        Id_label["justify"] = "center"
-        Id_label["text"] = "ID"
-        Id_label.place(x=20,y=180,width=70,height=25)
-
-        Id_entry=tk.Entry(self)
-        Id_entry["borderwidth"] = "1px"
-        ft = tkFont.Font(family='Times',size=10)
-        Id_entry["font"] = ft
-        Id_entry["fg"] = "#333333"
-        Id_entry["justify"] = "center"
-        Id_entry["text"] = "ID"
-        Id_entry.place(x=20,y=210,width=70,height=25)
-
-        Title_label=tk.Label(self)
-        ft = tkFont.Font(family='Times',size=10)
-        Title_label["font"] = ft
-        Title_label["fg"] = "#333333"
-        Title_label["justify"] = "center"
-        Title_label["text"] = "Title"
-        Title_label.place(x=120,y=180,width=70,height=25)
-
-        Title_entry=tk.Entry(self)
-        Title_entry["borderwidth"] = "1px"
-        ft = tkFont.Font(family='Times',size=10)
-        Title_entry["font"] = ft
-        Title_entry["fg"] = "#333333"
-        Title_entry["justify"] = "center"
-        Title_entry["text"] = "Title"
-        Title_entry.place(x=120,y=210,width=70,height=25)
-
-        Rel_yr_label=tk.Label(self)
-        ft = tkFont.Font(family='Times',size=10)
-        Rel_yr_label["font"] = ft
-        Rel_yr_label["fg"] = "#333333"
-        Rel_yr_label["justify"] = "center"
-        Rel_yr_label["text"] = "Release year"
-        Rel_yr_label.place(x=220,y=180,width=77,height=30)
-
-        Rel_yr_entry=tk.Entry(self)
-        Rel_yr_entry["borderwidth"] = "1px"
-        ft = tkFont.Font(family='Times',size=10)
-        Rel_yr_entry["font"] = ft
-        Rel_yr_entry["fg"] = "#333333"
-        Rel_yr_entry["justify"] = "center"
-        Rel_yr_entry["text"] = "release_year"
-        Rel_yr_entry.place(x=220,y=210,width=70,height=25)
-
-        Rating_label=tk.Label(self)
-        ft = tkFont.Font(family='Times',size=10)
-        Rating_label["font"] = ft
-        Rating_label["fg"] = "#333333"
-        Rating_label["justify"] = "center"
-        Rating_label["text"] = "Rating"
-        Rating_label.place(x=320,y=180,width=70,height=25)
-
-        Rating_entry=tk.Entry(self)
-        Rating_entry["borderwidth"] = "1px"
-        ft = tkFont.Font(family='Times',size=10)
-        Rating_entry["font"] = ft
-        Rating_entry["fg"] = "#333333"
-        Rating_entry["justify"] = "center"
-        Rating_entry["text"] = "rating"
-        Rating_entry.place(x=320,y=210,width=70,height=25)
-
-        Duration_label=tk.Label(self)
-        ft = tkFont.Font(family='Times',size=10)
-        Duration_label["font"] = ft
-        Duration_label["fg"] = "#333333"
-        Duration_label["justify"] = "center"
-        Duration_label["text"] = "Duration"
-        Duration_label.place(x=420,y=180,width=70,height=25)
-
-        Duration_entry=tk.Entry(self)
-        Duration_entry["borderwidth"] = "1px"
-        ft = tkFont.Font(family='Times',size=10)
-        Duration_entry["font"] = ft
-        Duration_entry["fg"] = "#333333"
-        Duration_entry["justify"] = "center"
-        Duration_entry["text"] = "duration"
-        Duration_entry.place(x=420,y=210,width=70,height=25)
-
-        Genre_label=tk.Label(self)
-        ft = tkFont.Font(family='Times',size=10)
-        Genre_label["font"] = ft
-        Genre_label["fg"] = "#333333"
-        Genre_label["justify"] = "center"
-        Genre_label["text"] = "Genre"
-        Genre_label.place(x=520,y=180,width=70,height=25)
-
-        Genre_entry=tk.Entry(self)
-        Genre_entry["borderwidth"] = "1px"
-        ft = tkFont.Font(family='Times',size=10)
-        Genre_entry["font"] = ft
-        Genre_entry["fg"] = "#333333"
-        Genre_entry["justify"] = "center"
-        Genre_entry["text"] = "genre"
-        Genre_entry.place(x=520,y=210,width=70,height=25)
+        amend_Message=tk.Label(self)
+        ft = tkFont.Font(family='Times',size=14)
+        amend_Message["font"] = ft
+        amend_Message["fg"] = "#00cc22"
+        amend_Message["justify"] = "center"
+        amend_Message["text"] = ""
+        amend_Message.place(x=0,y=250,width=613,height=30)
                 
-        Amend_btn=tk.Button(self)
-        Amend_btn["bg"] = "#f0f0f0"
+        amend_Amend_btn=tk.Button(self)
+        amend_Amend_btn["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times',size=14)
-        Amend_btn["font"] = ft
-        Amend_btn["fg"] = "#000000"
-        Amend_btn["justify"] = "center"
-        Amend_btn["text"] = "Amend details"
-        Amend_btn.place(x=220,y=265,width=150,height=30)
-        Amend_btn["command"] = lambda: self.Amend_btn_command(Id_entry.get(), Title_entry.get(), Rel_yr_entry.get(), Rating_entry.get(), Duration_entry.get(), Genre_entry.get(), Results)
+        amend_Amend_btn["font"] = ft
+        amend_Amend_btn["fg"] = "#000000"
+        amend_Amend_btn["justify"] = "center"
+        amend_Amend_btn["text"] = "Amend details"
+        amend_Amend_btn.place(x=230,y=300,width=150,height=30)
+        amend_Amend_btn["command"] = lambda: self.amend_Amend_btn_command(amend_Id_entry.get(), amend_Title_entry.get(), amend_Rel_yr_entry.get(), amend_Rating_entry.get(), amend_Duration_entry.get(), amend_Genre_entry.get(), self.amend_Results, amend_Message)
 
-        Back_btn=tk.Button(self)
-        Back_btn["bg"] = "#f0f0f0"
+        amend_Back_btn=tk.Button(self)
+        amend_Back_btn["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times',size=14)
-        Back_btn["font"] = ft
-        Back_btn["fg"] = "#000000"
-        Back_btn["justify"] = "center"
-        Back_btn["text"] = "Back"
-        Back_btn.place(x=220,y=315,width=150,height=30)
-        Back_btn["command"] = lambda: controller.show_frame ("menu_scrn")
+        amend_Back_btn["font"] = ft
+        amend_Back_btn["fg"] = "#000000"
+        amend_Back_btn["justify"] = "center"
+        amend_Back_btn["text"] = "Back"
+        amend_Back_btn.place(x=230,y=350,width=150,height=30)
+        amend_Back_btn["command"] = lambda: controller.show_frame ("menu_scrn")
         
-    def Amend_btn_command(self, p_Id, p_Title, p_Rel_yr, p_Rating, p_Duration, p_Genre, Results):
-        f_controller.change(p_Id, p_Title, p_Rel_yr, p_Rating, p_Duration, p_Genre, Results)
-
+    def amend_Amend_btn_command(self, p_Id, p_Title, p_Rel_yr, p_Rating, p_Duration, p_Genre, Results, message):
+        f_controller.change(p_Id, p_Title, p_Rel_yr, p_Rating, p_Duration, p_Genre, Results, message)
                 
 
 if __name__ == "__main__":
