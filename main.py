@@ -21,7 +21,7 @@ class SampleApp(tk.Tk):
         self.resizable(width=False, height=False)
         
 
-        # the container is where we'll stack a bunch of frames on top of each other, then the one we want visible will be raised above the others
+        # the container is where the frames are stacked on top of each other, then the one we want visible will be raised above the others
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
         container.grid_rowconfigure(0, weight=1)
@@ -221,7 +221,7 @@ class query_scrn(tk.Frame):
         query_Search_btn["justify"] = "center"
         query_Search_btn["text"] = "Search"
         query_Search_btn.place(x=230,y=160,width=150,height=30)
-        query_Search_btn["command"] = lambda:self.query_Search_btn_command(query_Id_entry.get(), query_Title_entry.get(),  query_Rel_yr_entry.get(), query_Rating_entry.get(), query_Duration_entry.get(), query_Genre_entry.get(), query_Results)
+        query_Search_btn["command"] = lambda:self.query_Search_btn_command(query_Id_entry.get(), query_Title_entry.get(),  query_Rel_yr_entry.get(), query_Rating_entry.get(), query_Duration_entry.get(), query_Genre_entry.get(), query_Results, query_Message)
         
         query_Results=ttk.Treeview(self, column=("c1", "c2", "c3", "c4", "c5", "c6"), show='headings', height=8)
         # Results["borderwidth"] = "1px"
@@ -270,7 +270,7 @@ class query_scrn(tk.Frame):
         query_Amend_btn["justify"] = "center"
         query_Amend_btn["text"] = "Amend details"
         query_Amend_btn.place(x=330,y=520,width=150,height=30)
-        query_Amend_btn["command"] = lambda: self.query_Amend_btn_command(controller, query_Results)
+        query_Amend_btn["command"] = lambda: self.query_Amend_btn_command(controller, query_Results, query_Message)
 
         query_Back_btn=tk.Button(self)
         query_Back_btn["bg"] = "#f0f0f0"
@@ -280,40 +280,50 @@ class query_scrn(tk.Frame):
         query_Back_btn["justify"] = "center"
         query_Back_btn["text"] = "Back"
         query_Back_btn.place(x=220,y=570,width=150,height=30)
-        query_Back_btn["command"] = lambda: controller.show_frame ("menu_scrn")
-
+        query_Back_btn["command"] = lambda: self.query_Back_btn_command(controller, query_Id_entry, query_Title_entry,  query_Rel_yr_entry, query_Rating_entry, query_Duration_entry, query_Genre_entry)
     
-    def query_Amend_btn_command(self, controller, p_Results):
-        #Data validation here
-        
+    def query_Amend_btn_command(self, controller, p_Results, message):
         # Get selected item to Edit
         selected_item = p_Results.focus()
-        selected_item = p_Results.item(selected_item)
-        selected_item = selected_item["values"]
-        
-        amend_page = self.controller.get_page("amend_scrn")
-        amend_page.amend_Results.delete(*amend_page.amend_Results.get_children())
-        amend_page.amend_Results.insert('', 'end', text="1", values=selected_item)
+        # Data validation to ensure a film is selected
+        if selected_item == "":
+            message["fg"] = "#cc0000"
+            message["text"] = "Please select a film to amend"
+            message.after(3000,lambda: f_controller.remove_message(message))
+        else:
+            selected_item = p_Results.item(selected_item)
+            selected_item = selected_item["values"]
+            
+            amend_page = self.controller.get_page("amend_scrn")
+            amend_page.amend_Results.delete(*amend_page.amend_Results.get_children())
+            amend_page.amend_Results.insert('', 'end', text="1", values=selected_item)
 
-        controller.show_frame ("amend_scrn")
-
+            controller.show_frame ("amend_scrn")
         
     def query_Delete_btn_command(self, p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_results, message):
-        #Data validation here
-        
         # Get selected item to Delete
         deleted_item = p_results.focus()
-        deleted_item = p_results.item(deleted_item)
-        deleted_item = deleted_item["values"]
-        f_controller.delete(deleted_item, message)
-        p_results.delete(*p_results.get_children())
-        f_controller.query(p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_results)
-        
+        # Data validation to ensure a film is selected
+        if deleted_item == "":
+            message["fg"] = "#cc0000"
+            message["text"] = "Please select a film to delete"
+            message.after(3000,lambda: f_controller.remove_message(message))
+        else:
+            deleted_item = p_results.item(deleted_item)
+            deleted_item = deleted_item["values"]
+            f_controller.delete(deleted_item, message)
+            p_results.delete(*p_results.get_children())
+            f_controller.query(p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_results)
 
-    def query_Search_btn_command(self, p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_Results):
+    def query_Search_btn_command(self, p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_Results, message):
         p_Results.delete(*p_Results.get_children())
-        f_controller.query(p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_Results)
+        f_controller.query(p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_Results, message)
 
+    def query_Back_btn_command(self, controller, p2_film_id, p2_title, p2_year_released, p2_rating, p2_duration, p2_genre):
+        boxes = [p2_film_id, p2_title, p2_year_released, p2_rating, p2_duration, p2_genre]
+        for i in boxes:
+            i.delete(0, tk.END)
+        controller.show_frame ("menu_scrn")
 
 
 class add_scrn(tk.Frame):
@@ -458,13 +468,16 @@ class add_scrn(tk.Frame):
         add_Back_btn["justify"] = "center"
         add_Back_btn["text"] = "Back"
         add_Back_btn.place(x=230,y=450,width=150,height=30)
-        add_Back_btn["command"] = lambda: controller.show_frame ("menu_scrn")
+        add_Back_btn["command"] = lambda: self.add_Back_btn_command(controller, add_Id_entry, add_Title_entry, add_Rel_yr_entry, add_Rating_entry, add_Duration_entry, add_Genre_entry)
         
     def add_Add_btn_command(self, p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p2_film_id, p2_title, p2_year_released, p2_rating, p2_duration, p2_genre, message):
-        f_controller.add_film(p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, message)
+        f_controller.add_film(p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, message, p2_film_id, p2_title, p2_year_released, p2_rating, p2_duration, p2_genre)
+            
+    def add_Back_btn_command(self, controller, p2_film_id, p2_title, p2_year_released, p2_rating, p2_duration, p2_genre):
         boxes = [p2_film_id, p2_title, p2_year_released, p2_rating, p2_duration, p2_genre]
         for i in boxes:
             i.delete(0, tk.END)
+        controller.show_frame ("menu_scrn")
 
 
 class amend_scrn(tk.Frame):
@@ -632,11 +645,18 @@ class amend_scrn(tk.Frame):
         amend_Back_btn["justify"] = "center"
         amend_Back_btn["text"] = "Back"
         amend_Back_btn.place(x=230,y=350,width=150,height=30)
-        amend_Back_btn["command"] = lambda: controller.show_frame ("menu_scrn")
-        
+        amend_Back_btn["command"] = lambda: self.amend_Back_btn_command(controller, amend_Id_entry, amend_Title_entry, amend_Rel_yr_entry, amend_Rating_entry, amend_Duration_entry, amend_Genre_entry)
+                
     def amend_Amend_btn_command(self, p_Id, p_Title, p_Rel_yr, p_Rating, p_Duration, p_Genre, Results, message):
         f_controller.change(p_Id, p_Title, p_Rel_yr, p_Rating, p_Duration, p_Genre, Results, message)
-                
+    
+    def amend_Back_btn_command(self, controller, p2_film_id, p2_title, p2_year_released, p2_rating, p2_duration, p2_genre):
+        boxes = [p2_film_id, p2_title, p2_year_released, p2_rating, p2_duration, p2_genre]
+        for i in boxes:
+            i.delete(0, tk.END)
+        controller.show_frame ("menu_scrn")
+
+                    
 
 if __name__ == "__main__":
     app = SampleApp()
