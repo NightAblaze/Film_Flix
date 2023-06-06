@@ -42,17 +42,16 @@ class fn_controller():
             message["fg"] = "#cc0000"
             message["text"] = "Please ensure Genre is 20 characters or smaller"
             message.after(3000,lambda: self.remove_message(message))
-        # elif:
-            # Add code to prevent sql insertion
         else:
             check_id = connector.sql_execute_simple_query(f"SELECT * FROM tblFilms WHERE filmID = {p_film_id};")
-            if check_id != "":
+            if check_id != []:
                 message["fg"] = "#cc0000"
                 message["text"] = "That Film ID has already been assigned"
                 message.after(3000,lambda: self.remove_message(message))  
             else:  
                 vals = (p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre)
                 connector.sql_execute(f"INSERT INTO tblFilms (filmID, title, yearReleased, rating, duration, genre) VALUES (?,?,?,?,?,?);", vals)
+                
                 message["fg"] = "#00cc22"
                 message["text"] = "Film added successfully"
                 message.after(3000,lambda: self.remove_message(message))
@@ -90,8 +89,6 @@ class fn_controller():
             message["fg"] = "#cc0000"
             message["text"] = "Please ensure Genre is 20 characters or smaller"
             message.after(3000,lambda: self.remove_message(message))
-        # elif:
-            # Add code to prevent sql insertion
         else:
             if p_film_id == "":
                 p_film_id = "%"
@@ -153,11 +150,9 @@ class fn_controller():
             message["fg"] = "#cc0000"
             message["text"] = "Please ensure Genre is 20 characters or smaller"
             message.after(3000,lambda: self.remove_message(message))
-        # elif:
-            # Add code to prevent sql insertion
         else:
             check_id = connector.sql_execute_simple_query(f"SELECT * FROM tblFilms WHERE filmID = {p_film_id};")
-            if check_id != "":
+            if check_id != []:
                 message["fg"] = "#cc0000"
                 message["text"] = "That Film ID has already been assigned"
                 message.after(3000,lambda: self.remove_message(message)) 
@@ -188,6 +183,7 @@ class fn_controller():
                 if p_film_id != "":
                     val1 = (int(p_film_id), int(record))
                     connector.sql_execute(f"UPDATE tblFilms SET filmID = ? WHERE filmID = ?;", val1)
+                    
                     amended_film = connector.sql_execute_simple_query(f"SELECT * FROM tblFilms WHERE filmID = {int(p_film_id)};")            
                 else:
                     amended_film = connector.sql_execute_simple_query(f"SELECT * FROM tblFilms WHERE filmID = {int(record)};")
@@ -206,7 +202,7 @@ class fn_controller():
         
     def delete(self, deleted_item, message):
         val = (int(deleted_item[0]))
-        connector.sql_execute_delete(f"DELETE FROM tblFilms WHERE filmID = {val};")
+        connector.sql_execute(f"DELETE FROM tblFilms WHERE filmID = ?;", (val, ))
         
         message["fg"] = "#cc0000"
         message["text"] = "Film deleted successfully"

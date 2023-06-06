@@ -20,10 +20,6 @@ class sql_handling():
     def sql_execute_query(self, query, vals):
         self.cursor.execute(query, vals)
         return self.cursor.fetchall()
-
-    def sql_execute_delete(self, query):
-        self.cursor.execute(query)
-        self.my_conn.commit()
         
     def sql_execute_simple_query(self, query):
         self.cursor.execute(query)

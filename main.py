@@ -224,12 +224,6 @@ class query_scrn(tk.Frame):
         query_Search_btn["command"] = lambda:self.query_Search_btn_command(query_Id_entry.get(), query_Title_entry.get(),  query_Rel_yr_entry.get(), query_Rating_entry.get(), query_Duration_entry.get(), query_Genre_entry.get(), query_Results, query_Message)
         
         query_Results=ttk.Treeview(self, column=("c1", "c2", "c3", "c4", "c5", "c6"), show='headings', height=8)
-        # Results["borderwidth"] = "1px"
-        # ft = tkFont.Font(family='Times',size=10)
-        # Results["font"] = ft
-        # Results["fg"] = "#333333"
-        # Results["justify"] = "center"
-        # Results["text"] = "Entry"
         query_Results.place(x=10,y=200,width=590,height=261)
         query_Results.column("# 1", anchor="center", minwidth=0, width=50)
         query_Results.heading("# 1", text="Film ID")
@@ -313,7 +307,7 @@ class query_scrn(tk.Frame):
             deleted_item = deleted_item["values"]
             f_controller.delete(deleted_item, message)
             p_results.delete(*p_results.get_children())
-            f_controller.query(p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_results)
+            f_controller.query(p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_results, message)
 
     def query_Search_btn_command(self, p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_Results, message):
         p_Results.delete(*p_Results.get_children())
@@ -497,12 +491,6 @@ class amend_scrn(tk.Frame):
         amend_Title.place(x=0,y=30,width=614,height=53)
                 
         self.amend_Results=ttk.Treeview(self, column=("c1", "c2", "c3", "c4", "c5", "c6"), show='headings', height=8)
-        # Results["borderwidth"] = "1px"
-        # ft = tkFont.Font(family='Times',size=10)
-        # Results["font"] = ft
-        # Results["fg"] = "#333333"
-        # Results["justify"] = "center"
-        # Results["text"] = "Entry"
         self.amend_Results.place(x=10,y=120,width=591,height=50)
         self.amend_Results.column("# 1", anchor="center", minwidth=0, width=50)
         self.amend_Results.heading("# 1", text="Film ID")
