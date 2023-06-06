@@ -264,7 +264,7 @@ class query_scrn(tk.Frame):
         query_Amend_btn["justify"] = "center"
         query_Amend_btn["text"] = "Amend details"
         query_Amend_btn.place(x=330,y=520,width=150,height=30)
-        query_Amend_btn["command"] = lambda: self.query_Amend_btn_command(controller, query_Results, query_Message)
+        query_Amend_btn["command"] = lambda: self.query_Amend_btn_command(controller, query_Results, query_Message, query_Id_entry, query_Title_entry, query_Rel_yr_entry, query_Rating_entry, query_Duration_entry, query_Genre_entry)
 
         query_Back_btn=tk.Button(self)
         query_Back_btn["bg"] = "#f0f0f0"
@@ -274,9 +274,9 @@ class query_scrn(tk.Frame):
         query_Back_btn["justify"] = "center"
         query_Back_btn["text"] = "Back"
         query_Back_btn.place(x=220,y=570,width=150,height=30)
-        query_Back_btn["command"] = lambda: self.query_Back_btn_command(controller, query_Id_entry, query_Title_entry,  query_Rel_yr_entry, query_Rating_entry, query_Duration_entry, query_Genre_entry)
+        query_Back_btn["command"] = lambda: self.query_Back_btn_command(controller, query_Results, query_Id_entry, query_Title_entry, query_Rel_yr_entry, query_Rating_entry, query_Duration_entry, query_Genre_entry)
     
-    def query_Amend_btn_command(self, controller, p_Results, message):
+    def query_Amend_btn_command(self, controller, p_Results, message, p2_film_id, p2_title, p2_year_released, p2_rating, p2_duration, p2_genre):
         # Get selected item to Edit
         selected_item = p_Results.focus()
         # Data validation to ensure a film is selected
@@ -292,6 +292,12 @@ class query_scrn(tk.Frame):
             amend_page.amend_Results.delete(*amend_page.amend_Results.get_children())
             amend_page.amend_Results.insert('', 'end', text="1", values=selected_item)
 
+            p_Results.delete(*p_Results.get_children())
+            
+            boxes = [p2_film_id, p2_title, p2_year_released, p2_rating, p2_duration, p2_genre]
+            for i in boxes:
+                i.delete(0, tk.END)
+                        
             controller.show_frame ("amend_scrn")
         
     def query_Delete_btn_command(self, p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_results, message):
@@ -313,10 +319,11 @@ class query_scrn(tk.Frame):
         p_Results.delete(*p_Results.get_children())
         f_controller.query(p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_Results, message)
 
-    def query_Back_btn_command(self, controller, p2_film_id, p2_title, p2_year_released, p2_rating, p2_duration, p2_genre):
+    def query_Back_btn_command(self, controller, p_Results, p2_film_id, p2_title, p2_year_released, p2_rating, p2_duration, p2_genre):
         boxes = [p2_film_id, p2_title, p2_year_released, p2_rating, p2_duration, p2_genre]
         for i in boxes:
             i.delete(0, tk.END)
+        p_Results.delete(*p_Results.get_children())
         controller.show_frame ("menu_scrn")
 
 
