@@ -12,11 +12,11 @@ class fn_controller():
 
         if p_film_id.isnumeric() == False:
             message["fg"] = "#cc0000"
-            message["text"] = "Please ensure ID is a whole number"
+            message["text"] = "Please ensure ID is a whole positive number"
             message.after(3000,lambda: self.remove_message(message))
         elif (p_year_released.isnumeric() == False and p_year_released != "") or (p_duration.isnumeric() == False and p_duration != ""):
             message["fg"] = "#cc0000"
-            message["text"] = "Please ensure Release year, and Duration are whole numbers or blank"
+            message["text"] = "Please ensure Release year, and Duration are whole positive numbers or blank"
             message.after(3000,lambda: self.remove_message(message))
         elif len(p_film_id) > 4:
             message["fg"] = "#cc0000"
@@ -63,7 +63,7 @@ class fn_controller():
 
         if (p_film_id.isnumeric() == False and p_film_id != "") or (p_year_released.isnumeric() == False and p_year_released != "") or (p_duration.isnumeric() == False and p_duration != ""):
             message["fg"] = "#cc0000"
-            message["text"] = "Please ensure ID, Release year, and Duration are whole numbers or blank"
+            message["text"] = "Please ensure ID, Release year, and Duration are whole positive numbers or blank"
             message.after(3000,lambda: self.remove_message(message))
         elif len(p_film_id) > 4:
             message["fg"] = "#cc0000"
@@ -116,15 +116,20 @@ class fn_controller():
             
             vals = (p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre)
             search = connector.sql_execute_query(f"SELECT * FROM tblFilms WHERE filmID LIKE ? AND title LIKE ? AND yearReleased LIKE ? AND rating LIKE ? AND duration LIKE ? AND genre LIKE ?;", vals)
-            for i in search:
-                p_Results.insert('', 'end', text=str(i[0]), values=(i))
+            if search == []:
+                message["fg"] = "#cc0000"
+                message["text"] = "No available results in database"
+                message.after(3000,lambda: self.remove_message(message))                
+            else:
+                for i in search:
+                    p_Results.insert('', 'end', text=str(i[0]), values=(i))
 
         
     def change(self, p_film_id, p_title, p_year_released, p_rating, p_duration, p_genre, p_results, message):
 
         if (p_film_id.isnumeric() == False and p_film_id != "") or (p_year_released.isnumeric() == False and p_year_released != "") or (p_duration.isnumeric() == False and p_duration != ""):
             message["fg"] = "#cc0000"
-            message["text"] = "Please ensure ID, Release year, and Duration are whole numbers or blank"
+            message["text"] = "Please ensure ID, Release year, and Duration are whole positive numbers or blank"
             message.after(3000,lambda: self.remove_message(message))
         elif len(p_film_id) > 4:
             message["fg"] = "#cc0000"
@@ -142,16 +147,16 @@ class fn_controller():
             message["fg"] = "#cc0000"
             message["text"] = "Please ensure Title is 20 characters or smaller"
             message.after(3000,lambda: self.remove_message(message))
-        elif len(p_rating) > 2:
+        elif len(p_rating) > 3:
             message["fg"] = "#cc0000"
-            message["text"] = "Please ensure Title is 2 characters or smaller"
+            message["text"] = "Please ensure Rating is 3 characters or smaller"
             message.after(3000,lambda: self.remove_message(message))  
         elif len(p_genre) > 20:
             message["fg"] = "#cc0000"
             message["text"] = "Please ensure Genre is 20 characters or smaller"
             message.after(3000,lambda: self.remove_message(message))
         else:
-            check_id = connector.sql_execute_simple_query(f"SELECT * FROM tblFilms WHERE filmID = {p_film_id};")
+            check_id = connector.sql_execute_query(f"SELECT * FROM tblFilms WHERE filmID = ?;", (p_film_id, ))
             if check_id != []:
                 message["fg"] = "#cc0000"
                 message["text"] = "That Film ID has already been assigned"
