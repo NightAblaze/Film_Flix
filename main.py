@@ -72,7 +72,7 @@ class menu_scrn(tk.Frame):
         menu_Search_btn["fg"] = "#000000"
         menu_Search_btn["justify"] = "center"
         menu_Search_btn["text"] = "Search Film Flix"
-        menu_Search_btn.place(x=220,y=150,width=150,height=30)
+        menu_Search_btn.place(x=210,y=150,width=170,height=30)
         menu_Search_btn["command"] = lambda: controller.show_frame("query_scrn")
         
         menu_Add_btn=tk.Button(self)
@@ -82,7 +82,7 @@ class menu_scrn(tk.Frame):
         menu_Add_btn["fg"] = "#000000"
         menu_Add_btn["justify"] = "center"
         menu_Add_btn["text"] = "Add a new film"
-        menu_Add_btn.place(x=220,y=200,width=150,height=30)
+        menu_Add_btn.place(x=210,y=200,width=170,height=30)
         menu_Add_btn["command"] = lambda: controller.show_frame("add_scrn")
         
         menu_Quit_btn=tk.Button(self)
@@ -92,7 +92,7 @@ class menu_scrn(tk.Frame):
         menu_Quit_btn["fg"] = "#000000"
         menu_Quit_btn["justify"] = "center"
         menu_Quit_btn["text"] = "Quit"
-        menu_Quit_btn.place(x=220,y=250,width=150,height=30)
+        menu_Quit_btn.place(x=210,y=250,width=170,height=30)
         menu_Quit_btn["command"] = lambda: quit()
         
 
@@ -151,7 +151,7 @@ class query_scrn(tk.Frame):
         query_Rel_yr_label["fg"] = "#333333"
         query_Rel_yr_label["justify"] = "center"
         query_Rel_yr_label["text"] = "Release year"
-        query_Rel_yr_label.place(x=220,y=90,width=77,height=30)
+        query_Rel_yr_label.place(x=210,y=90,width=85,height=30)
 
         query_Rel_yr_entry=tk.Entry(self)
         query_Rel_yr_entry["borderwidth"] = "1px"
@@ -225,21 +225,21 @@ class query_scrn(tk.Frame):
         
         query_Results=ttk.Treeview(self, column=("c1", "c2", "c3", "c4", "c5", "c6"), show='headings', height=8)
         query_Results.place(x=10,y=200,width=590,height=261)
-        query_Results.column("# 1", anchor="center", minwidth=0, width=50)
+        query_Results.column("# 1", anchor="center", minwidth=0, width=53)
         query_Results.heading("# 1", text="Film ID")
-        query_Results.column("# 2", anchor="center", minwidth=0, width=235)
+        query_Results.column("# 2", anchor="center", minwidth=0, width=224)
         query_Results.heading("# 2", text="Title")
-        query_Results.column("# 3", anchor="center", minwidth=0, width=90)
+        query_Results.column("# 3", anchor="center", minwidth=0, width=95)
         query_Results.heading("# 3", text="Release year")
         query_Results.column("# 4", anchor="center", minwidth=0, width=60)
         query_Results.heading("# 4", text="Rating")
-        query_Results.column("# 5", anchor="center", minwidth=0, width=60)
+        query_Results.column("# 5", anchor="center", minwidth=0, width=65)
         query_Results.heading("# 5", text="Duration")
-        query_Results.column("# 6", anchor="center", minwidth=0, width=93)
+        query_Results.column("# 6", anchor="center", minwidth=0, width=91)
         query_Results.heading("# 6", text="Genre")
         
         query_Message=tk.Label(self)
-        ft = tkFont.Font(family='Times',size=14)
+        ft = tkFont.Font(family='Times',size=10)
         query_Message["font"] = ft
         query_Message["fg"] = "#cc0000"
         query_Message["justify"] = "center"
@@ -345,9 +345,9 @@ class add_scrn(tk.Frame):
         ft = tkFont.Font(family='Times',size=10)
         add_Id_label["font"] = ft
         add_Id_label["fg"] = "#333333"
-        add_Id_label["justify"] = "left"
+        add_Id_label["anchor"] = "w"
         add_Id_label["text"] = "ID"
-        add_Id_label.place(x=230,y=100,width=70,height=25)
+        add_Id_label.place(x=220,y=100,width=70,height=25)
 
         add_Id_entry=tk.Entry(self)
         add_Id_entry["borderwidth"] = "1px"
@@ -362,9 +362,9 @@ class add_scrn(tk.Frame):
         ft = tkFont.Font(family='Times',size=10)
         add_Title_label["font"] = ft
         add_Title_label["fg"] = "#333333"
-        add_Title_label["justify"] = "left"
+        add_Title_label["anchor"] = "w"
         add_Title_label["text"] = "Title"
-        add_Title_label.place(x=230,y=140,width=70,height=25)
+        add_Title_label.place(x=220,y=140,width=70,height=25)
 
         add_Title_entry=tk.Entry(self)
         add_Title_entry["borderwidth"] = "1px"
@@ -379,9 +379,9 @@ class add_scrn(tk.Frame):
         ft = tkFont.Font(family='Times',size=10)
         add_Rel_yr_label["font"] = ft
         add_Rel_yr_label["fg"] = "#333333"
-        add_Rel_yr_label["justify"] = "left"
+        add_Rel_yr_label["anchor"] = "w"
         add_Rel_yr_label["text"] = "Release year"
-        add_Rel_yr_label.place(x=230,y=180,width=77,height=30)
+        add_Rel_yr_label.place(x=220,y=180,width=90,height=30)
 
         add_Rel_yr_entry=tk.Entry(self)
         add_Rel_yr_entry["borderwidth"] = "1px"
@@ -396,9 +396,9 @@ class add_scrn(tk.Frame):
         ft = tkFont.Font(family='Times',size=10)
         add_Rating_label["font"] = ft
         add_Rating_label["fg"] = "#333333"
-        add_Rating_label["justify"] = "left"
+        add_Rating_label["anchor"] = "w"
         add_Rating_label["text"] = "Rating"
-        add_Rating_label.place(x=230,y=220,width=70,height=25)
+        add_Rating_label.place(x=220,y=220,width=70,height=25)
 
         add_Rating_entry=tk.Entry(self)
         add_Rating_entry["borderwidth"] = "1px"
@@ -413,9 +413,9 @@ class add_scrn(tk.Frame):
         ft = tkFont.Font(family='Times',size=10)
         add_Duration_label["font"] = ft
         add_Duration_label["fg"] = "#333333"
-        add_Duration_label["justify"] = "left"
+        add_Duration_label["anchor"] = "w"
         add_Duration_label["text"] = "Duration"
-        add_Duration_label.place(x=230,y=260,width=70,height=25)
+        add_Duration_label.place(x=220,y=260,width=70,height=25)
 
         add_Duration_entry=tk.Entry(self)
         add_Duration_entry["borderwidth"] = "1px"
@@ -430,9 +430,9 @@ class add_scrn(tk.Frame):
         ft = tkFont.Font(family='Times',size=10)
         add_Genre_label["font"] = ft
         add_Genre_label["fg"] = "#333333"
-        add_Genre_label["justify"] = "left"
+        add_Genre_label["anchor"] = "w"
         add_Genre_label["text"] = "Genre"
-        add_Genre_label.place(x=230,y=300,width=70,height=25)
+        add_Genre_label.place(x=220,y=300,width=70,height=25)
 
         add_Genre_entry=tk.Entry(self)
         add_Genre_entry["borderwidth"] = "1px"
@@ -444,7 +444,7 @@ class add_scrn(tk.Frame):
         add_Genre_entry.place(x=320,y=300,width=70,height=25)
         
         add_Message=tk.Label(self)
-        ft = tkFont.Font(family='Times',size=14)
+        ft = tkFont.Font(family='Times',size=10)
         add_Message["font"] = ft
         add_Message["fg"] = "#00cc22"
         add_Message["justify"] = "center"
@@ -499,17 +499,17 @@ class amend_scrn(tk.Frame):
                 
         self.amend_Results=ttk.Treeview(self, column=("c1", "c2", "c3", "c4", "c5", "c6"), show='headings', height=8)
         self.amend_Results.place(x=10,y=120,width=591,height=50)
-        self.amend_Results.column("# 1", anchor="center", minwidth=0, width=50)
+        self.amend_Results.column("# 1", anchor="center", minwidth=0, width=53)
         self.amend_Results.heading("# 1", text="Film ID")
-        self.amend_Results.column("# 2", anchor="center", minwidth=0, width=235)
+        self.amend_Results.column("# 2", anchor="center", minwidth=0, width=224)
         self.amend_Results.heading("# 2", text="Title")
-        self.amend_Results.column("# 3", anchor="center", minwidth=0, width=90)
+        self.amend_Results.column("# 3", anchor="center", minwidth=0, width=95)
         self.amend_Results.heading("# 3", text="Release year")
         self.amend_Results.column("# 4", anchor="center", minwidth=0, width=60)
         self.amend_Results.heading("# 4", text="Rating")
-        self.amend_Results.column("# 5", anchor="center", minwidth=0, width=60)
+        self.amend_Results.column("# 5", anchor="center", minwidth=0, width=65)
         self.amend_Results.heading("# 5", text="Duration")
-        self.amend_Results.column("# 6", anchor="center", minwidth=0, width=94)
+        self.amend_Results.column("# 6", anchor="center", minwidth=0, width=92)
         self.amend_Results.heading("# 6", text="Genre")
 
         amend_Id_label=tk.Label(self)
@@ -552,7 +552,7 @@ class amend_scrn(tk.Frame):
         amend_Rel_yr_label["fg"] = "#333333"
         amend_Rel_yr_label["justify"] = "center"
         amend_Rel_yr_label["text"] = "Release year"
-        amend_Rel_yr_label.place(x=220,y=180,width=77,height=30)
+        amend_Rel_yr_label.place(x=213,y=180,width=90,height=30)
 
         amend_Rel_yr_entry=tk.Entry(self)
         amend_Rel_yr_entry["borderwidth"] = "1px"
@@ -615,7 +615,7 @@ class amend_scrn(tk.Frame):
         amend_Genre_entry.place(x=520,y=210,width=70,height=25)
         
         amend_Message=tk.Label(self)
-        ft = tkFont.Font(family='Times',size=14)
+        ft = tkFont.Font(family='Times',size=10)
         amend_Message["font"] = ft
         amend_Message["fg"] = "#00cc22"
         amend_Message["justify"] = "center"
